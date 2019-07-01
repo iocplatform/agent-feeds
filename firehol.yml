@@ -1,0 +1,97 @@
+#
+# FireHol
+#
+enabled: true
+name: firehol
+description: "FireHol"
+tags: [ "attacker" ]
+
+defaults:
+  observable: "IP"
+
+  # Threat definition
+  threat: "attacker"
+  severity: 3
+  boost: 3
+
+  # Confidence and Confidenciality
+  tlp: "green"
+  confidence: 75
+
+# Default parser
+parser:
+  type: regex
+  parameters:
+    rule: ^(?P<observable>.*)$
+    ignore_rule: ^(#| )+
+    fields:
+      - observable
+
+# Integration window and failover strategy
+connector:
+  type: http
+  parameters:
+    timeout: 30
+
+# Feed definition
+feeds:
+
+  - name: "botscout-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/botscout_1d.ipset"
+      tags: [ "spam" ]
+
+  - name: "proxylist-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxylists_1d.ipset"
+      tags: [ "proxy" ]
+
+  - name: "tor-exits-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/tor_exits_1d.ipset"
+      tags: [ "tor", "tor-exit" ]
+
+  - name: "socks-proxy-7d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/socks_proxy_7d.ipset"
+      tags: [ "proxy", "socks" ]
+
+  - name: "bitcoin-nodes-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/bitcoin_nodes_1d.ipset"
+      tags: [ "bitcoin" ]
+
+  - name: "malwaredomainlist"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/malwaredomainlist.ipset"
+      tags: [ "malware" ]
+
+  - name: "malc0de"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/malc0de.ipset"
+      tags: [ "malware" ]
+
+  - name: "cruzit-web-attacks"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/cruzit_web_attacks.ipset"
+      tags: [ "attacker", "scanner", "http" ]
+
+  - name: "proxyrss-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxyrss_1d.ipset"
+      tags: [ "proxy" ]
+
+  - name: "proxyspy-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/proxyspy_1d.ipset"
+      tags: [ "proxy" ]
+
+  - name: "ri-web-proxies-30d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/ri_web_proxies_30d.ipset"
+      tags: [ "proxy", "http", "https" ]
+
+  - name: "sslproxies-1d"
+    overrides:
+      url: "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/sslproxies_1d.ipset"
+      tags: [ "proxy", "ssl" ]

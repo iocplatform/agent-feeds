@@ -1,0 +1,43 @@
+#
+# Alexa Top Domain
+#
+enabled: false
+name: alexa
+description: "Alexa Top Domain"
+
+# Tags
+tags: [ "whitelist" ]
+
+defaults:
+  # Observable type
+  observable: "DOMAIN"
+
+  # Threat definition
+  threat: "whitelist"
+  severity: -3
+  boost: 3
+
+  # Confidence and Confidenciality
+  tlp: "green"
+  confidence: 75
+
+# Integration window and failover strategy
+connector:
+  type: http
+  parameters:
+    timeout: 30
+
+# Default parser
+parser:
+  type: csv
+  parameters:
+    separator: ","
+    fields: [ "order", "observable" ]
+
+# Feed definition
+feeds:
+
+  - name: "topdomain"
+    overrides:
+      url: "http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
+      tags: [ "whitelist" ]

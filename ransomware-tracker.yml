@@ -1,0 +1,171 @@
+#
+# Abuse.ch Ransomware Tracker
+#
+enabled: true
+name: abusech
+description: "Abuse.ch Ransomware Tracker"
+tags: [ "malware", "ransomware" ]
+
+defaults:
+  observable: "IP"
+
+  # Threat definition
+  threat: "botnet"
+  severity: 3
+  boost: 3
+
+  # Confidence and Confidenciality
+  tlp: "green"
+  confidence: 75
+
+# Default parser
+parser:
+  type: regex
+  parameters:
+    rule: ^(?P<observable>.*)$
+    ignore_rule: ^(#| )+
+    fields:
+      - observable
+
+# Integration window and failover strategy
+connector:
+  type: http
+  parameters:
+    timeout: 30
+
+# Feed definition
+feeds:
+
+# CryptoWall -------------------------------------------------------------------
+
+  - name: "ransomware-cw-c2-urls"
+    overrides:
+      observable: "URL"
+      url: "https://ransomwaretracker.abuse.ch/downloads/CW_C2_URLBL.txt"
+      tags: [ "malware", "ransomware", "cryptowall"]
+      false_positive_risk: "low"
+
+  - name: "ransomware-cw-c2-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/CW_C2_DOMBL.txt"
+      tags: [ "malware", "ransomware", "cryptowall" ]
+      false_positive_risk: "high"
+
+  - name: "ransomware-cw-ps-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/CW_PS_DOMBL.txt"
+      tags: [ "malware", "ransomware", "cryptowall" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-cw-ps-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/CW_PS_IPBL.txt"
+      tags: [ "malware", "ransomware", "cryptowall" ]
+      false_positive_risk: "medium"
+
+# TeslaCrypt -------------------------------------------------------------------
+
+  - name: "ransomware-tc-c2-urls"
+    overrides:
+      observable: "URL"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TC_C2_URLBL.txt"
+      tags: [ "malware", "ransomware", "teslacrypt" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-tc-c2-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TC_C2_DOMBL.txt"
+      tags: [ "malware", "ransomware", "teslacrypt" ]
+      false_positive_risk: "high"
+
+  - name: "ransomware-tc-ps-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TC_PS_DOMBL.txt"
+      tags: [ "malware", "ransomware", "teslacrypt" ]
+      false_positive_risk: "high"
+
+  - name: "ransomware-tc-ps-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TC_PS_IPBL.txt"
+      tags: [ "malware", "ransomware", "teslacrypt" ]
+      false_positive_risk: "medium"
+
+  - name: "ransomware-tc-ds-urls"
+    overrides:
+      observable: "URL"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TC_DS_URLBL.txt"
+      tags: [ "malware", "ransomware", "teslacrypt" ]
+      false_positive_risk: "low"
+
+# Loky -------------------------------------------------------------------------
+
+  - name: "ransomware-ly-c2-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/LY_C2_DOMBL.txt"
+      tags: [ "malware", "ransomware", "loky" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-ly-c2-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/LY_C2_IPBL.txt"
+      tags: [ "malware", "ransomware", "loky" ]
+      false_positive_risk: "medium"
+
+  - name: "ransomware-ly-ps-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/LY_PS_DOMBL.txt"
+      tags: [ "malware", "ransomware", "loky" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-ly-ps-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/LY_PS_IPBL.txt"
+      tags: [ "malware", "ransomware", "loky" ]
+      false_positive_risk: "high"
+
+  - name: "ransomware-ly-ds-urls"
+    overrides:
+      observable: "URL"
+      url: "https://ransomwaretracker.abuse.ch/downloads/LY_DS_URLBL.txt"
+      tags: [ "malware", "ransomware", "loky" ]
+      false_positive_risk: "low"
+
+# TorrentLocker ----------------------------------------------------------------
+
+  - name: "ransomware-tl-c2-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TL_C2_DOMBL.txt"
+      tags: [ "malware", "ransomware", "torrentlocker" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-tl-c2-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TL_C2_IPBL.txt"
+      tags: [ "malware", "ransomware", "torrentlocker" ]
+      false_positive_risk: "medium"
+
+  - name: "ransomware-tl-ps-domains"
+    overrides:
+      observable: "DOMAIN"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TL_PS_DOMBL.txt"
+      tags: [ "malware", "ransomware", "torrentlocker" ]
+      false_positive_risk: "low"
+
+  - name: "ransomware-tl-ps-ips"
+    overrides:
+      observable: "IP"
+      url: "https://ransomwaretracker.abuse.ch/downloads/TL_PS_IPBL.txt"
+      tags: [ "malware", "ransomware", "torrentlocker" ]
+      false_positive_risk: "medium"

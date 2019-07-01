@@ -1,0 +1,42 @@
+#
+# Tor Status
+#
+enabled: true
+name: torstatus
+description: "Tor Status"
+tags: [ "attacker" ]
+
+defaults:
+  observable: "IP"
+
+  # Threat definition
+  threat: "attacker"
+  severity: 3
+  boost: 3
+
+  # Confidence and Confidenciality
+  tlp: "green"
+  confidence: 75
+
+# Default parser
+parser:
+  type: regex
+  parameters:
+    rule: ^(?P<observable>.*)$
+    ignore_rule: ^(#| )+
+    fields:
+      - observable
+
+# Integration window and failover strategy
+connector:
+  type: http
+  parameters:
+    timeout: 30
+
+# Feed definition
+feeds:
+
+  - name: "all"
+    overrides:
+      url: "https://torstatus.blutmagie.de/ip_list_all.php/Tor_ip_list_ALL.csv"
+      tags: [ "tor" ]
